@@ -1,34 +1,140 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+import SchemaInput from './components/SchemaInput';
+import Form from './components/Form';
+
+import { Field } from './types';
+
+const defaultValue = {
+  type: 'object',
+  properties: {
+    firstName: {
+      type: 'string',
+    },
+    parents: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+          },
+          age: {
+            type: 'integer',
+          },
+          grandparents: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                retired: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+      },
+      minItems: 0,
+      maxItems: 2,
+    },
+  },
+};
+
+// const defaultValue = {
+//   type: 'object',
+//   properties: {
+//     streetAddress: {
+//       type: 'string',
+//     },
+//     city: {
+//       type: 'string',
+//     },
+//     state: {
+//       type: 'string',
+//     },
+//     gender: {
+//       enum: ['male', 'female', 'else'],
+//     },
+//     phones: {
+//       type: 'array',
+//       maxItems: 3,
+//       minItems: 1,
+//       items: {
+//         type: 'string',
+//         minLength: 1,
+//         maxLength: 255,
+//       },
+//     },
+//     parents: {
+//       type: 'array',
+//       minItems: 0,
+//       maxItems: 2,
+//       items: {
+//         type: 'object',
+//         properties: {
+//           relation: {
+//             enum: ['mother', 'father'],
+//           },
+//           age: {
+//             type: 'integer',
+//           },
+//           name: {
+//             type: 'string',
+//           },
+//           secondName: {
+//             type: 'string',
+//           },
+//           grandFather: {
+//             type: 'object',
+//             name: {
+//               type: 'string',
+//             },
+//             age: {
+//               type: 'integer',
+//             },
+//             secondName: {
+//               type: 'string',
+//             },
+//             retired: {
+//               type: 'boolean',
+//             },
+//           },
+//           //   grandMother: {
+//           //     type: 'object',
+//           //     name: {
+//           //       type: 'string',
+//           //     },
+//           //     age: {
+//           //       type: 'integer',
+//           //     },
+//           //     secondName: {
+//           //       type: 'string',
+//           //     },
+//           //     retired: {
+//           //       type: 'boolean',
+//           //     },
+//           //   },
+//         },
+//       },
+//     },
+//   },
+//   required: ['streetAddress', 'city', 'state'],
+// };
+
+const App = () => {
+  const [schema, setSchema] = useState(defaultValue as Field);
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
+      <SchemaInput setSchema={setSchema} defaultValue={defaultValue} />
 
-export default App
+      <Form schema={schema} />
+    </div>
+  );
+};
+
+export default App;
