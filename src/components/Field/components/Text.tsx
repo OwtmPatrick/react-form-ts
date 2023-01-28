@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from '@mui/material';
+import { FormControl, TextField } from '@mui/material';
 import { useField } from 'formik';
 
 import { Field } from '../../../types';
@@ -16,10 +16,10 @@ const Text: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
   }, []);
 
   return (
-    <>
+    <FormControl fullWidth>
       <TextField {...field} label={name || ''} />
       {meta.error && meta.touched && <div>{meta.error}</div>}
-    </>
+    </FormControl>
   );
 };
 

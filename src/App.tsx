@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { Stack } from '@mui/system';
+import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import SchemaInput from './components/SchemaInput';
 import Form from './components/Form';
@@ -10,6 +13,12 @@ const defaultValue = {
   properties: {
     firstName: {
       type: 'string',
+    },
+    gender: {
+      enum: ['male', 'female'],
+    },
+    boolean: {
+      type: 'boolean',
     },
     parents: {
       type: 'array',
@@ -127,13 +136,18 @@ const defaultValue = {
 
 const App = () => {
   const [schema, setSchema] = useState(defaultValue as Field);
+  const largeScreen = useMediaQuery('(min-width: 1200px)');
 
   return (
-    <div className="App">
-      <SchemaInput setSchema={setSchema} defaultValue={defaultValue} />
+    <>
+      <Stack p={largeScreen ? 2 : 1} spacing={5} direction={largeScreen ? 'row' : 'column'}>
+        <SchemaInput setSchema={setSchema} defaultValue={defaultValue} />
 
-      <Form schema={schema} />
-    </div>
+        <Form schema={schema} />
+      </Stack>
+
+      <CssBaseline />
+    </>
   );
 };
 

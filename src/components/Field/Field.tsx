@@ -1,4 +1,5 @@
 import React from 'react';
+import { Stack } from '@mui/system';
 import Text from './components/Text';
 import Integer from './components/Integer';
 import Boolean from './components/Boolean';
@@ -44,19 +45,15 @@ const FormField: React.FC<{ field: Field; name?: string }> = ({ field, name }) =
     }
 
     return (
-      <>
-        {Object.keys(field.properties!).map((p) => {
-          console.log(field);
-
-          return (
-            <FormField
-              key={p}
-              name={name ? `${name}.${p}` : p}
-              field={field.properties![p] as Field}
-            />
-          );
-        })}
-      </>
+      <Stack spacing={2} sx={{ flexGrow: 1 }}>
+        {Object.keys(field.properties!).map((p) => (
+          <FormField
+            key={p}
+            name={name ? `${name}.${p}` : p}
+            field={field.properties![p] as Field}
+          />
+        ))}
+      </Stack>
     );
   }
 

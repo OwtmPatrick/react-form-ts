@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useField, useFormikContext, FieldArray } from 'formik';
+import React, { useEffect } from 'react';
+import { IconButton, Stack, Card, CardContent } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { useField, useFormikContext } from 'formik';
 import FormField from '../Field';
 
 import { Field } from '../../../types';
@@ -18,7 +21,7 @@ const getValue = (values: any, name?: string) => {
 };
 
 const ArrayField: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
-  const [field, meta, { setValue }] = useField(name || DEFAULT_FIELD_KEY);
+  const [, , { setValue }] = useField(name || DEFAULT_FIELD_KEY);
   const { values }: any = useFormikContext();
 
   const value = getValue(values, name) || [];
@@ -30,7 +33,7 @@ const ArrayField: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
   };
 
   const handleRemoveItem = (index: number) => {
-    setValue(value.filter((_, i: number) => i !== index));
+    setValue(value.filter((v: Field, i: number) => i !== index));
   };
 
   useEffect(() => {
@@ -38,22 +41,28 @@ const ArrayField: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
   }, []);
 
   return (
-    <div>
+    <Stack spacing={2}>
       {value.length > 0 &&
-        value.map((_, index: number) => (
-          <div key={index}>
-            <FormField name={`${name}.${index}`} field={f.items!} />
+        value.map((v: Field, index: number) => (
+          <Card key={index}>
+            <CardContent>
+              <Stack direction="row" alignItems="flex-start" spacing={2}>
+                <FormField name={`${name}.${index}`} field={f.items!} />
 
-            <button type="button" onClick={() => handleRemoveItem(index)}>
-              remove
-            </button>
-          </div>
+                <IconButton aria-label="add" onClick={() => handleRemoveItem(index)}>
+                  <RemoveIcon />
+                </IconButton>
+              </Stack>
+            </CardContent>
+          </Card>
         ))}
 
-      <button type="button" onClick={handleAddItem}>
-        add
-      </button>
-    </div>
+      <Stack alignItems="flex-end">
+        <IconButton aria-label="add" onClick={handleAddItem}>
+          <AddCircleOutlineIcon />
+        </IconButton>
+      </Stack>
+    </Stack>
   );
 };
 
