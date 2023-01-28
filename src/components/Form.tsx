@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Button } from '@mui/material';
 import { Formik, Form } from 'formik';
 
 import FormField from './Field/Field';
@@ -28,9 +28,9 @@ const FormComponent: React.FC<{ schema: Field }> = ({ schema }) => (
         <Form>
           <FormField field={schema} />
 
-          <button type="submit" disabled={isSubmitting}>
+          <Button type="submit" variant="contained" disabled={isSubmitting}>
             Submit
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>
