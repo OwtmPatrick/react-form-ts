@@ -6,13 +6,32 @@ export enum FieldType {
   ARRAY = 'array',
 }
 
-export type Field = {
-  type?: FieldType;
-  enum?: Array<string | number>;
-  properties?: {
+export type TextField = {
+  type: FieldType.STRING;
+};
+
+export type IntegerField = {
+  type: FieldType.INTEGER;
+};
+
+export type BooleanField = {
+  type: FieldType.BOOLEAN;
+};
+
+export type EnumField = {
+  enum: Array<string | number>;
+};
+
+export type ObjectField = {
+  type: FieldType.OBJECT;
+  properties: {
     [x in string]?: Field;
   };
-  items?: Field;
-  title?: string;
-  name?: string;
 };
+
+export type ArrayField = {
+  type: FieldType.ARRAY;
+  items: Field;
+};
+
+export type Field = TextField | IntegerField | BooleanField | EnumField | ObjectField | ArrayField;

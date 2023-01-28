@@ -4,7 +4,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useField, useFormikContext } from 'formik';
 import FormField from '../Field';
-import { Field } from '../../../types';
+import { FieldType, Field, ArrayField } from '../../../types';
 import { getFieldLabel } from '../../../utils';
 
 const DEFAULT_FIELD_KEY = 'array-field-key';
@@ -20,14 +20,20 @@ const getValue = (values: any, name?: string) => {
   return value;
 };
 
-const ArrayField: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
+const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string }> = ({ f, name }) => {
   const [, , { setValue }] = useField(name || DEFAULT_FIELD_KEY);
   const { values }: any = useFormikContext();
   const value = getValue(values, name) || [];
   const label = getFieldLabel(name);
 
   const handleAddItem = () => {
-    const newItem = f.items?.type === 'object' ? {} : '';
+    let newItem;
+
+    if ('type' in f.items) {
+      newItem = f.items?.type === FieldType.OBJECT ? {} : '';
+    } else {
+      newItem = '';
+    }
 
     setValue([...value, newItem]);
   };
@@ -49,7 +55,7 @@ const ArrayField: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
               <Typography variant="body2" mb={1}>{`${label}-${index}`}</Typography>
 
               <Stack direction="row" alignItems="flex-start" spacing={2}>
-                <FormField name={`${name}.${index}`} field={f.items!} />
+                <FormField name={`${name}.${index}`} field={f.items} />
 
                 <IconButton aria-label="add" onClick={() => handleRemoveItem(index)}>
                   <RemoveIcon />
@@ -68,4 +74,4 @@ const ArrayField: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
   );
 };
 
-export default ArrayField;
+export default ArrayFieldComponent;

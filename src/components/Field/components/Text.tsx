@@ -1,12 +1,11 @@
 import React from 'react';
 import { FormControl, TextField } from '@mui/material';
 import { useField } from 'formik';
-import { Field } from '../../../types';
 import { getFieldLabel } from '../../../utils';
 
 const DEFAULT_FIELD_KEY = 'text-field-key';
 
-const Text: React.FC<{ f: Field; name?: string }> = ({ f, name }) => {
+const Text: React.FC<{ name?: string }> = ({ name }) => {
   const [field, meta, { setValue }] = useField(name || DEFAULT_FIELD_KEY);
   const label = getFieldLabel(name);
 
