@@ -37,6 +37,8 @@ export type ObjectField = {
 export type ArrayField = {
   type: FieldType.ARRAY;
   items: Field;
+  minItems?: number;
+  maxItems?: number;
 };
 
 export type Field = TextField | IntegerField | BooleanField | EnumField | ObjectField | ArrayField;

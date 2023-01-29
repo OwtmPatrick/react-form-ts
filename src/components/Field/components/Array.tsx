@@ -33,12 +33,17 @@ const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string; required?: b
       return REQUIRED_ERROR_MESSAGE;
     }
 
+    if (f.minItems && val.length < f.minItems) {
+      return `Value must not have less than ${f.minItems} item${f.minItems > 1 ? 's' : ''}`;
+    }
+
     return undefined;
   };
   const [, meta, { setValue }] = useField({ name: name || DEFAULT_FIELD_KEY, validate });
   const { values }: any = useFormikContext();
   const value = getValue(values, name) || [];
   const label = getFieldLabel(name);
+  const canAdditem = f?.maxItems ? value.length < f?.maxItems : true;
 
   const handleAddItem = () => {
     let newItem;
@@ -60,8 +65,22 @@ const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string; required?: b
     setValue([]);
   }, []);
 
+  if (!f.items) {
+    return (
+      <Typography variant="body1" sx={(theme) => ({ color: theme.palette.error.main })}>
+        Array type must have &apos;items&apos; property
+      </Typography>
+    );
+  }
+
   return (
-    <>
+    <Stack
+      p={1}
+      sx={(theme) => ({
+        border: `1px solid ${meta.error ? theme.palette.error.main : 'transparent'}`,
+        borderRadius: '5px',
+      })}
+    >
       <Typography variant="body1" mb={1}>
         {label}
       </Typography>
@@ -84,16 +103,18 @@ const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string; required?: b
             </Card>
           ))}
 
-        <Stack alignItems="flex-end">
-          <IconButton aria-label="add" onClick={handleAddItem}>
-            <AddCircleOutlineIcon />
-          </IconButton>
-        </Stack>
+        {canAdditem && (
+          <Stack alignItems="flex-end">
+            <IconButton aria-label="add" onClick={handleAddItem}>
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </Stack>
+        )}
       </Stack>
       <Typography variant="caption" sx={(theme) => ({ color: theme.palette.error.main })} mt={1}>
         {meta.error}
       </Typography>
-    </>
+    </Stack>
   );
 };
 
