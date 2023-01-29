@@ -8,6 +8,8 @@ export enum FieldType {
 
 export type TextField = {
   type: FieldType.STRING;
+  minLength?: number;
+  maxLength?: number;
 };
 
 export type IntegerField = {

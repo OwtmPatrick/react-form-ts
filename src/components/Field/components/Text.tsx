@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormControl, TextField, Typography } from '@mui/material';
 import { useField } from 'formik';
+import { TextField as TextFieldT } from '../../../types';
 
 import { getFieldLabel } from '../../../utils';
 
@@ -8,10 +9,22 @@ import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
 
 const DEFAULT_FIELD_KEY = 'text-field-key';
 
-const Text: React.FC<{ name?: string; required?: boolean }> = ({ name, required }) => {
+const Text: React.FC<{ f: TextFieldT; name?: string; required?: boolean }> = ({
+  f,
+  name,
+  required,
+}) => {
   const validate = (val: string) => {
     if (required && !val) {
       return REQUIRED_ERROR_MESSAGE;
+    }
+
+    if (f.minLength && val.length < f.minLength) {
+      return `Value must not have less than ${f.minLength} character${f.minLength > 1 ? 's' : ''}`;
+    }
+
+    if (f.maxLength && val.length > f.maxLength) {
+      return `Value must not have more than ${f.maxLength} character${f.maxLength > 1 ? 's' : ''}`;
     }
 
     return undefined;

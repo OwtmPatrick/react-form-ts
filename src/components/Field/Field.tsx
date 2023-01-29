@@ -15,7 +15,7 @@ const FormField: React.FC<{ field: Field; name?: string; required?: boolean }> =
 }) => {
   if ('type' in field) {
     if (field.type === FieldType.STRING) {
-      return <Text name={name} required={required} />;
+      return <Text f={field} name={name} required={required} />;
     }
 
     if (field.type === FieldType.INTEGER) {
