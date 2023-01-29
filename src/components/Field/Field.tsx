@@ -19,7 +19,7 @@ const FormField: React.FC<{ field: Field; name?: string; required?: boolean }> =
     }
 
     if (field.type === FieldType.INTEGER) {
-      return <Integer name={name} required={required} />;
+      return <Integer f={field} name={name} required={required} />;
     }
 
     if (field.type === FieldType.BOOLEAN) {

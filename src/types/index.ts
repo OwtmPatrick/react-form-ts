@@ -14,6 +14,8 @@ export type TextField = {
 
 export type IntegerField = {
   type: FieldType.INTEGER;
+  minimum?: number;
+  maximum?: number;
 };
 
 export type BooleanField = {

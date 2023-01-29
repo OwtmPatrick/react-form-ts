@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormControl, TextField, Typography } from '@mui/material';
 import { useField } from 'formik';
+import { IntegerField } from '../../../types';
 
 import { getFieldLabel } from '../../../utils';
 
@@ -8,10 +9,22 @@ import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
 
 const DEFAULT_FIELD_KEY = 'integer-field-key';
 
-const Integer: React.FC<{ name?: string; required?: boolean }> = ({ name, required }) => {
-  const validate = (val: string) => {
+const Integer: React.FC<{ f: IntegerField; name?: string; required?: boolean }> = ({
+  f,
+  name,
+  required,
+}) => {
+  const validate = (val: number) => {
     if (required && !val) {
       return REQUIRED_ERROR_MESSAGE;
+    }
+
+    if (f.minimum && val < f.minimum) {
+      return `Value must be >= ${f.minimum}`;
+    }
+
+    if (f.maximum && val > f.maximum) {
+      return `Value must be <= ${f.maximum}`;
     }
 
     return undefined;
