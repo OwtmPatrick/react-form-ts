@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography, Button } from '@mui/material';
+import { Stack, Typography, Button, TextField } from '@mui/material';
 import { Formik, Form } from 'formik';
 
 import FormField from './Field/Field';
@@ -30,11 +30,28 @@ const FormComponent: React.FC<{ schema: Field }> = ({ schema }) => (
         <Form>
           <FormField field={schema} />
 
-          {errors && <div>{JSON.stringify(errors, null, 2)}</div>}
-
-          <Button type="submit" variant="contained" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={isSubmitting}
+            style={{ marginTop: '10px' }}
+          >
             Submit
           </Button>
+
+          {Object.keys(errors as object).length !== 0 && (
+            <Stack spacing={1} mt={2}>
+              <Typography variant="h6">Errors</Typography>
+
+              <TextField
+                multiline
+                fullWidth
+                rows={15}
+                disabled
+                value={JSON.stringify(errors, null, 2)}
+              />
+            </Stack>
+          )}
         </Form>
       )}
     </Formik>
