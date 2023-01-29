@@ -48,6 +48,8 @@ const SchemaInput: React.FC<{
         editorProps={{ $blockScrolling: true }}
         style={{
           width: '100%',
+          height: '100%',
+          minHeight: '500px',
         }}
       />
     </Stack>
