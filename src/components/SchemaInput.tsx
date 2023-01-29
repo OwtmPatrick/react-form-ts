@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import AceEditor from 'react-ace';
 
-import 'ace-builds/src-noconflict/mode-java';
+import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
 
 const SchemaInput: React.FC<{
