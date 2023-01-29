@@ -6,8 +6,9 @@ import { IntegerField } from '../../../types';
 import { getFieldLabel } from '../../../utils';
 
 import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
+import { DEFAULT_FIELD_KEY } from '../../../constants/field';
 
-const DEFAULT_FIELD_KEY = 'integer-field-key';
+// const DEFAULT_FIELD_KEY = 'integer-field-key';
 
 const Integer: React.FC<{ f: IntegerField; name?: string; required?: boolean }> = ({
   f,

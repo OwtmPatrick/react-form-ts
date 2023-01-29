@@ -9,8 +9,9 @@ import { FieldType, Field, ArrayField } from '../../../types';
 import { getFieldLabel } from '../../../utils';
 
 import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
+import { DEFAULT_FIELD_KEY } from '../../../constants/field';
 
-const DEFAULT_FIELD_KEY = 'array-field-key';
+// const DEFAULT_FIELD_KEY = 'array-field-key';
 
 const getValue = (values: any, name?: string) => {
   const splited = name!.split('.');

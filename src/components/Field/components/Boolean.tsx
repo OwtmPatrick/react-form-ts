@@ -4,8 +4,9 @@ import { useField } from 'formik';
 import { getFieldLabel } from '../../../utils';
 
 import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
+import { DEFAULT_FIELD_KEY } from '../../../constants/field';
 
-const DEFAULT_FIELD_KEY = 'boolean-field-key';
+// const DEFAULT_FIELD_KEY = 'boolean-field-key';
 
 const Boolean: React.FC<{ name?: string; required?: boolean }> = ({ name, required }) => {
   const validate = (val?: boolean) => {

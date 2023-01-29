@@ -6,8 +6,9 @@ import { EnumField } from '../../../types';
 import { getFieldLabel } from '../../../utils';
 
 import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
+import { DEFAULT_FIELD_KEY } from '../../../constants/field';
 
-const DEFAULT_FIELD_KEY = 'enum-field-key';
+// const DEFAULT_FIELD_KEY = 'enum-field-key';
 
 const Enum: React.FC<{ f: EnumField; name?: string; required?: boolean }> = ({
   f,
