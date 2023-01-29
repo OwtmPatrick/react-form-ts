@@ -5,7 +5,10 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { useField, useFormikContext } from 'formik';
 import FormField from '../Field';
 import { FieldType, Field, ArrayField } from '../../../types';
+
 import { getFieldLabel } from '../../../utils';
+
+import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
 
 const DEFAULT_FIELD_KEY = 'array-field-key';
 
@@ -20,8 +23,19 @@ const getValue = (values: any, name?: string) => {
   return value;
 };
 
-const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string }> = ({ f, name }) => {
-  const [, , { setValue }] = useField(name || DEFAULT_FIELD_KEY);
+const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string; required?: boolean }> = ({
+  f,
+  name,
+  required,
+}) => {
+  const validate = (val: any[]) => {
+    if (required && val.length === 0) {
+      return REQUIRED_ERROR_MESSAGE;
+    }
+
+    return undefined;
+  };
+  const [, meta, { setValue }] = useField({ name: name || DEFAULT_FIELD_KEY, validate });
   const { values }: any = useFormikContext();
   const value = getValue(values, name) || [];
   const label = getFieldLabel(name);
@@ -47,30 +61,39 @@ const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string }> = ({ f, na
   }, []);
 
   return (
-    <Stack spacing={2}>
-      {value.length > 0 &&
-        value.map((v: Field, index: number) => (
-          <Card key={index}>
-            <CardContent>
-              <Typography variant="body2" mb={1}>{`${label}-${index}`}</Typography>
+    <>
+      <Typography variant="body1" mb={1}>
+        {label}
+      </Typography>
 
-              <Stack direction="row" alignItems="flex-start" spacing={2}>
-                <FormField name={`${name}.${index}`} field={f.items} />
+      <Stack spacing={2}>
+        {value.length > 0 &&
+          value.map((v: Field, index: number) => (
+            <Card key={index}>
+              <CardContent>
+                <Typography variant="body2" mb={1}>{`${label}-${index}`}</Typography>
 
-                <IconButton aria-label="add" onClick={() => handleRemoveItem(index)}>
-                  <RemoveIcon />
-                </IconButton>
-              </Stack>
-            </CardContent>
-          </Card>
-        ))}
+                <Stack direction="row" alignItems="flex-start" spacing={2}>
+                  <FormField name={`${name}.${index}`} field={f.items} />
 
-      <Stack alignItems="flex-end">
-        <IconButton aria-label="add" onClick={handleAddItem}>
-          <AddCircleOutlineIcon />
-        </IconButton>
+                  <IconButton aria-label="add" onClick={() => handleRemoveItem(index)}>
+                    <RemoveIcon />
+                  </IconButton>
+                </Stack>
+              </CardContent>
+            </Card>
+          ))}
+
+        <Stack alignItems="flex-end">
+          <IconButton aria-label="add" onClick={handleAddItem}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+        </Stack>
       </Stack>
-    </Stack>
+      <Typography variant="caption" sx={(theme) => ({ color: theme.palette.error.main })} mt={1}>
+        {meta.error}
+      </Typography>
+    </>
   );
 };
 

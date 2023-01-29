@@ -20,6 +20,9 @@ const defaultValue = {
     boolean: {
       type: 'boolean',
     },
+    age: {
+      type: 'integer',
+    },
     parents: {
       type: 'array',
       items: {
@@ -51,6 +54,7 @@ const defaultValue = {
       maxItems: 2,
     },
   },
+  required: ['firstName', 'age', 'gender', 'boolean', 'parents'],
 };
 
 // const defaultValue = {

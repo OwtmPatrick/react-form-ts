@@ -27,6 +27,7 @@ export type ObjectField = {
   properties: {
     [x in string]?: Field;
   };
+  required?: Array<string>;
 };
 
 export type ArrayField = {

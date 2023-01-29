@@ -19,14 +19,18 @@ const FormComponent: React.FC<{ schema: Field }> = ({ schema }) => (
 
     <Formik
       initialValues={{}}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={(values, { setSubmitting }) => {
         alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, errors }) => (
         <Form>
           <FormField field={schema} />
+
+          {errors && <div>{JSON.stringify(errors, null, 2)}</div>}
 
           <Button type="submit" variant="contained" disabled={isSubmitting}>
             Submit

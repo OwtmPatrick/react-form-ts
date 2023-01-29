@@ -1,13 +1,29 @@
 import React from 'react';
-import { FormControl, TextField } from '@mui/material';
+import { FormControl, TextField, Typography } from '@mui/material';
 import { useField } from 'formik';
+
 import { getFieldLabel } from '../../../utils';
+
+import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
 
 const DEFAULT_FIELD_KEY = 'text-field-key';
 
-const Text: React.FC<{ name?: string }> = ({ name }) => {
-  const [field, meta, { setValue }] = useField(name || DEFAULT_FIELD_KEY);
+const Text: React.FC<{ name?: string; required?: boolean }> = ({ name, required }) => {
+  const validate = (val: string) => {
+    if (required && !val) {
+      return REQUIRED_ERROR_MESSAGE;
+    }
+
+    return undefined;
+  };
+
+  const [field, meta, { setValue }] = useField({
+    name: name || DEFAULT_FIELD_KEY,
+    validate,
+  });
+
   const label = getFieldLabel(name);
+  const hasError = !!meta.error && meta.touched;
 
   React.useEffect(() => {
     if (field.value === undefined) {
@@ -17,8 +33,12 @@ const Text: React.FC<{ name?: string }> = ({ name }) => {
 
   return (
     <FormControl fullWidth>
-      <TextField {...field} label={label} />
-      {meta.error && meta.touched && <div>{meta.error}</div>}
+      <TextField {...field} label={label} error={hasError} />
+      {hasError && (
+        <Typography variant="caption" sx={(theme) => ({ color: theme.palette.error.main })} mt={1}>
+          {meta.error}
+        </Typography>
+      )}
     </FormControl>
   );
 };

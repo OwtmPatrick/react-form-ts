@@ -1,12 +1,22 @@
 import React from 'react';
-import { FormControl, FormControlLabel, Checkbox } from '@mui/material';
+import { FormControl, FormControlLabel, Checkbox, Typography } from '@mui/material';
 import { useField } from 'formik';
 import { getFieldLabel } from '../../../utils';
 
+import { REQUIRED_ERROR_MESSAGE } from '../../../constants/errors';
+
 const DEFAULT_FIELD_KEY = 'boolean-field-key';
 
-const Boolean: React.FC<{ name?: string }> = ({ name }) => {
-  const [, , { setValue }] = useField(name || DEFAULT_FIELD_KEY);
+const Boolean: React.FC<{ name?: string; required?: boolean }> = ({ name, required }) => {
+  const validate = (val?: boolean) => {
+    if (required && val === undefined) {
+      return REQUIRED_ERROR_MESSAGE;
+    }
+
+    return undefined;
+  };
+
+  const [, meta, { setValue }] = useField({ name: name || DEFAULT_FIELD_KEY, validate });
   const label = getFieldLabel(name);
 
   return (
@@ -14,8 +24,23 @@ const Boolean: React.FC<{ name?: string }> = ({ name }) => {
       <FormControlLabel
         name={name}
         control={<Checkbox onChange={(e) => setValue(e.target.checked)} />}
-        label={label}
+        label={
+          <Typography
+            variant="body1"
+            sx={(theme) => ({
+              color: meta.error ? theme.palette.error.main : theme.palette.text.primary,
+            })}
+          >
+            {label}
+          </Typography>
+        }
       />
+
+      {!!meta.error && (
+        <Typography variant="caption" sx={(theme) => ({ color: theme.palette.error.main })} mt={1}>
+          {meta.error}
+        </Typography>
+      )}
     </FormControl>
   );
 };
