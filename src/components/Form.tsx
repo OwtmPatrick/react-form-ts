@@ -34,7 +34,7 @@ const FormComponent: React.FC<{ schema: Field }> = ({ schema }) => (
             type="submit"
             variant="contained"
             disabled={isSubmitting}
-            style={{ marginTop: '10px' }}
+            style={{ margin: '10px 0' }}
           >
             Submit
           </Button>
