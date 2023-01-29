@@ -13,8 +13,8 @@ import { DEFAULT_FIELD_KEY } from '../../../constants/field';
 
 // const DEFAULT_FIELD_KEY = 'array-field-key';
 
-const getValue = (values: any, name?: string) => {
-  const splited = name!.split('.');
+const getValue = (values: any, name: string) => {
+  const splited = name.split('.');
   let value = values;
 
   for (let i = 0; i < splited.length; i = i + 1) {
@@ -42,7 +42,7 @@ const ArrayFieldComponent: React.FC<{ f: ArrayField; name?: string; required?: b
   };
   const [, meta, { setValue }] = useField({ name: name || DEFAULT_FIELD_KEY, validate });
   const { values }: any = useFormikContext();
-  const value = getValue(values, name) || [];
+  const value = getValue(values, name || DEFAULT_FIELD_KEY) || [];
   const label = getFieldLabel(name);
   const canAdditem = f?.maxItems ? value.length < f?.maxItems : true;
 
