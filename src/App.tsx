@@ -105,7 +105,7 @@ const App = () => {
       >
         <SchemaInput setSchema={setSchema} defaultValue={defaultValue} />
 
-        <Form schema={schema} />
+        <Form schema={schema} key={JSON.stringify(schema)} />
       </Stack>
 
       <CssBaseline />
